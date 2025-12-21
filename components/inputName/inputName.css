@@ -1,0 +1,157 @@
+/* ======================
+   Input Name Overlay
+====================== */
+
+.input-name-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255, 241, 242, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+/* ======================
+   Input Card
+====================== */
+
+.input-name-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  padding: 24px;
+  border-radius: 28px;
+
+  width: 100%;
+  max-width: 380px;
+
+  text-align: center;
+
+  box-shadow: 0 25px 60px rgba(236, 72, 153, 0.35);
+}
+
+.input-name-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.input-name-card p {
+  font-size: 0.9rem;
+  color: #9d174d;
+}
+
+/* ======================
+   Input Field
+====================== */
+
+.input-name-input {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 14px;
+
+  font-size: 1rem;
+  border-radius: 16px;
+
+  background: #fff1f2;
+  border: 3px solid #f9a8d4;
+
+  box-shadow: inset 0 0 12px rgba(236, 72, 153, 0.2);
+}
+
+.input-name-input:focus {
+  outline: none;
+  border-color: #ec4899;
+}
+
+/* ======================
+   Error Message
+====================== */
+
+.input-name-error {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #be123c;
+  min-height: 1em;
+}
+
+/* ======================
+   Confirm Button
+====================== */
+
+.input-name-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+
+  background: #f472b6;
+  color: #831843;
+
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.35);
+}
+
+.input-name-button:hover {
+  background: #ec4899;
+  color: #ffffff;
+}
+
+.input-name-button:active {
+  transform: scale(0.96);
+}
+
+/* ======================
+   Visibility Helpers
+====================== */
+
+.input-name-hidden {
+  display: none;
+}
+
+/* ======================
+   Mobile Adjustments
+====================== */
+
+@media (max-width: 768px) {
+
+  .input-name-card {
+    padding: 20px;
+    border-radius: 22px;
+    margin: 16px;
+  }
+
+  .input-name-input {
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .input-name-button {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(236, 72, 153, 0.3);
+  }
+}
+
+@media (max-width: 480px) {
+
+  .input-name-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .input-name-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .input-name-card p {
+    font-size: 0.8rem;
+  }
+}

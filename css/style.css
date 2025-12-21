@@ -1,0 +1,139 @@
+/* ======================
+   Global Mobile Optimizations
+====================== */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ======================
+   Layout
+====================== */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ======================
+   Maze Card
+====================== */
+
+.game-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  padding: 20px;
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(236, 72, 153, 0.35);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .game-card {
+    max-width: none;
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
+
+/* ======================
+   Canvas
+====================== */
+
+#mazeCanvas {
+  display: block;               /* remove inline gaps */
+  width: 100%;
+  height: auto;
+  background: #fff1f2;
+  border-radius: 24px;
+  border: 4px solid #f9a8d4;
+  box-shadow: inset 0 0 18px rgba(236, 72, 153, 0.2);
+}
+
+/* ======================
+   Mobile Adjustments
+====================== */
+
+@media (max-width: 768px) {
+
+  /* Stack layout vertically */
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Make card truly mobile-friendly */
+  .game-card {
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  /* Constrain maze height */
+  #mazeCanvas {
+    max-height: 60vh;
+    border-radius: 16px;
+    border-width: 3px;
+  }
+
+  /* Better spacing on mobile */
+  body {
+    padding: 8px;
+  }
+
+  /* Improve touch targets */
+  .arrow {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 18px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(236, 72, 153, 0.3);
+  }
+
+  /* Better spacing for choices list */
+  #choicesList li {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    touch-action: manipulation;
+  }
+
+  /* Result screen mobile adjustments */
+  #resultScreen > div {
+    padding: 20px;
+    margin: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .game-card {
+    padding: 10px;
+  }
+
+  #mazeCanvas {
+    max-height: 50vh;
+    border-width: 2px;
+  }
+
+  /* Smaller text on very small screens */
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .subtitle {
+    font-size: 0.75rem !important;
+  }
+}

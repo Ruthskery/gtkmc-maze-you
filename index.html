@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Get To Know My Crush 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Input Name -->
+  <link rel="stylesheet" href="components/inputName/inputName.css">
+
+</head>
+
+<body class="h-full flex items-center justify-center
+             bg-gradient-to-br from-pink-200 via-rose-100 to-purple-200
+             text-pink-900">
+
+    <!-- Input Name Screen -->
+    <div id="inputNameScreen" class="input-name-overlay">
+
+      <div class="input-name-card">
+        <h2>Hi there 💕</h2>
+        <p>What’s your name?</p>
+
+        <input
+          id="inputNameInput"
+          class="input-name-input"
+          type="text"
+          maxlength="16"
+          autocomplete="off"
+        />
+
+        <div id="inputNameError" class="input-name-error"></div>
+
+        <button
+          id="inputNameButton"
+          class="input-name-button">
+          Start 💖
+        </button>
+      </div>
+
+    </div>
+
+
+  <div class="w-full max-w-5xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6">
+
+    <!-- Title -->
+    <div class="text-center space-y-1">
+      <h1 class="text-2xl sm:text-3xl font-semibold">Choose Your Path 💕</h1>
+      <p class="subtitle text-pink-600 text-xs sm:text-sm">
+        Let's see what kind of crush you are 🌸
+      </p>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-4 sm:gap-6 items-start md:items-center justify-items-center md:justify-items-stretch">
+
+      <!-- Maze -->
+      <div class="flex justify-center items-center w-full">
+        <div class="game-card">
+            <canvas id="mazeCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="flex flex-col items-center gap-6">
+
+        <!-- Choices -->
+        <div class="w-full bg-white/60 rounded-2xl p-3 sm:p-4 shadow">
+          <h3 class="text-xs sm:text-sm text-pink-700 mb-2 sm:mb-3 text-center">
+            Your Choices 💗
+          </h3>
+          <ul id="choicesList" class="space-y-2"></ul>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex flex-col items-center gap-2 select-none">
+          <div class="relative w-32 h-32 sm:w-28 sm:h-28">
+
+            <button data-dir="up"
+              class="arrow absolute top-0 left-1/2 -translate-x-1/2
+                     w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-pink-300
+                     text-pink-900 font-bold shadow
+                     hover:bg-pink-400 active:scale-95
+                     touch-manipulation">
+              ▲
+            </button>
+
+            <button data-dir="left"
+              class="arrow absolute left-0 top-1/2 -translate-y-1/2
+                     w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-pink-300
+                     text-pink-900 font-bold shadow
+                     hover:bg-pink-400 active:scale-95
+                     touch-manipulation">
+              ◀
+            </button>
+
+            <button data-dir="right"
+              class="arrow absolute right-0 top-1/2 -translate-y-1/2
+                     w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-pink-300
+                     text-pink-900 font-bold shadow
+                     hover:bg-pink-400 active:scale-95
+                     touch-manipulation">
+              ▶
+            </button>
+
+            <button data-dir="down"
+              class="arrow absolute bottom-0 left-1/2 -translate-x-1/2
+                     w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-pink-300
+                     text-pink-900 font-bold shadow
+                     hover:bg-pink-400 active:scale-95
+                     touch-manipulation">
+              ▼
+            </button>
+          </div>
+
+          <p class="text-xs text-pink-600">Move 💫</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div id="resultScreen"
+       class="fixed inset-0 bg-pink-100/90 backdrop-blur
+              hidden z-50 flex items-center justify-center p-4">
+
+    <div class="bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6 w-full max-w-md
+                shadow-[0_30px_80px_rgba(236,72,153,0.4)]
+                space-y-3 sm:space-y-4 text-center max-h-[90vh] overflow-y-auto">
+
+      <h2 class="text-xl sm:text-2xl font-semibold">Your Crush Result 💖</h2>
+
+      <p id="resultText" class="text-pink-700 text-xs sm:text-sm"></p>
+
+      <ul id="resultList" class="space-y-2 text-xs sm:text-sm"></ul>
+
+      <button id="restartBtn"
+              class="w-full mt-4 py-3 sm:py-2 rounded-xl
+                     bg-pink-400 hover:bg-pink-500
+                     text-white font-semibold active:scale-95
+                     touch-manipulation min-h-[44px]">
+        Play Again 💕
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="components/inputName/inputName.js"></script>
+</body>
+</html>
