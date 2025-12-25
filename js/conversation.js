@@ -13,8 +13,8 @@ const options = document.getElementById("conversationOptions");
 // Avatars
 // ======================
 const avatars = {
-  her: "assets/images/avatar/bg-danica-cartoon.png",
-  me: "assets/images/avatar/bg-cyril-cartoon.png"
+  her: "assets/images/avatar/bg-danica-cartoon.png", // You / the one answering
+  me:  "assets/images/avatar/bg-cyril-cartoon.png"   // Me
 };
 
 let waitingForTap = false;
@@ -22,13 +22,22 @@ let waitingForChoice = false;
 let lastSpeaker = "her";
 let onChoiceSelect = null;
 
+function hideConversation() {
+  card.classList.add("is-hidden");
+}
+
+function showConversation() {
+  card.classList.remove("is-hidden");
+}
+
 // ======================
 // Typing
 // ======================
 function showTyping(who) {
   row.className = `conversation-row ${who}`;
   avatar.classList.remove("avatar-show");
-  speaker.textContent = who === "me" ? "You" : "Her";
+
+  speaker.textContent = who === "me" ? "Me" : "You";
 
   text.innerHTML = `
     <span class="typing">
@@ -42,6 +51,10 @@ function showTyping(who) {
 // ======================
 export function showMessage(message, who = "her") {
   waitingForTap = false;
+  waitingForChoice = false;
+
+  showConversation(); // 👈 fades IN
+
   tapHint.classList.add("hidden");
   options.innerHTML = "";
 
@@ -50,12 +63,13 @@ export function showMessage(message, who = "her") {
   setTimeout(() => {
     avatar.src = avatars[who];
     avatar.classList.add("avatar-show");
+
     text.textContent = message;
     lastSpeaker = who;
 
     waitingForTap = true;
     tapHint.classList.remove("hidden");
-  }, 700);
+  }, 600);
 }
 
 // ======================
@@ -83,11 +97,27 @@ export function showChoices(choices, callback) {
 }
 
 // ======================
-// Tap handling
+// click + space handlers
 // ======================
-card.addEventListener("click", () => {
-  if (!waitingForTap || waitingForChoice) return;
-
+function advanceDialogue() {
   tapHint.classList.add("hidden");
   waitingForTap = false;
+  hideConversation(); // 👈 fades OUT
+}
+
+export function isDialogueActive() {
+  return !card.classList.contains("is-hidden");
+}
+
+card.addEventListener("click", () => {
+  if (!waitingForTap || waitingForChoice) return;
+  advanceDialogue();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.code !== "Space") return;
+  if (!waitingForTap || waitingForChoice) return;
+
+  e.preventDefault();
+  advanceDialogue();
 });

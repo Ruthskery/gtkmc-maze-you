@@ -1,7 +1,7 @@
 import { levels } from "./levels.js";
 import { drawMaze, resizeCanvas } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
-import { showMessage, showChoices } from "./conversation.js";
+import { showMessage, isDialogueActive } from "./conversation.js";
 
 
 /* ======================
@@ -16,6 +16,8 @@ let playerName = null;
 
 let fade = 0;
 let fading = false;
+
+let exitLocked = false;
 
 /* ======================
    DOM
@@ -39,51 +41,99 @@ function loadLevel(index) {
   const level = levels[index];
   maze = level.maze;
   playerPos = { x: 1, y: 1 };
+  exitLocked = false;
 
   resizeCanvas(index);
 
   titleEl.textContent = `${level.title} 💕`;
-  subtitleEl.textContent = level.subtitle || "Choose with your heart 💖";
+  subtitleEl.textContent = level.subtitle;
 
-  fade = 1;
-  fading = true;
-
-  // Conversation handles choices
-  showMessage(level.subtitle || "Choose with your heart 💖", "her");
-
-  showChoices(
-    Object.values(level.exits),
-    choiceLabel => {
-      const exitKey = Object.keys(level.exits)
-        .find(k => level.exits[k] === choiceLabel);
-      handleExit(exitKey);
-    }
-  );
+  showMessage(level.subtitle, "me");
 }
+
+/* ======================
+   Delay/Thinking
+====================== */
+function delay(ms) {
+  return new Promise(res => setTimeout(res, ms));
+}
+
+/* ======================
+   Dialogoue
+====================== */
+
+async function playDialogue(lines) {
+  for (const line of lines) {
+    showMessage(line.text, line.who);
+    await waitForTap(); // ⬅️ YOU control the pace
+  }
+}
+
+/* ======================
+   Next Tap
+====================== */
+
+function waitForTap() {
+  return new Promise(resolve => {
+    const card = document.getElementById("conversationCard");
+
+    const done = () => {
+      card.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+      resolve();
+    };
+
+    const onClick = () => {
+      done();
+    };
+
+    const onKey = e => {
+      if (e.code === "Space") {
+        e.preventDefault(); // prevent page scroll
+        done();
+      }
+    };
+
+    card.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+  });
+}
+
 
 
 /* ======================
    Exit Handling
 ====================== */
 
-function handleExit(exitKey) {
+async function handleExit(exitKey) {
   const level = levels[currentLevel];
-  const choice = level.exits[exitKey];
+  exitLocked = true;
+
+  const dialogue = level.dialogue?.[exitKey];
+
+  if (dialogue) {
+    await playDialogue(dialogue);
+  } else {
+    // fallback
+    showMessage(level.exits[exitKey], "me");
+    await waitForTap();
+    showMessage("Interesting choice 💕", "her");
+    await waitForTap();
+  }
 
   choiceHistory.push({
     category: level.title,
-    choice
+    choice: level.exits[exitKey]
   });
 
-  setTimeout(() => {
-    currentLevel++;
+  currentLevel++;
+  exitLocked = false;
 
-    if (currentLevel >= levels.length) {
-      showResultScreen();
-    } else {
-      loadLevel(currentLevel);
-    }
-  }, 600);
+  if (currentLevel >= levels.length) {
+    showResultScreen();
+  } else {
+    loadLevel(currentLevel);
+  }
 }
 
 
@@ -167,6 +217,9 @@ restartBtn.addEventListener("click", () => {
 ====================== */
 
 function movePlayer(dx, dy) {
+  if (exitLocked) return;
+  if (isDialogueActive()) return; // ✅ WORKS NOW
+
   const nx = playerPos.x + dx;
   const ny = playerPos.y + dy;
 
@@ -176,8 +229,8 @@ function movePlayer(dx, dy) {
 
   const cell = maze[ny][nx];
   if (typeof cell === "string" && cell.startsWith("E")) {
-    // just stop movement on exits
-    return;
+    exitLocked = true;
+    handleExit(cell);
   }
 }
 

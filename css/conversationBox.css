@@ -17,42 +17,51 @@
 ====================== */
 
 .conversation-card {
-  pointer-events: auto;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(16px);
+  background: #ffffff; /* solid white */
+  
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 
   padding: 28px 32px;
   border-radius: 32px;
-  box-shadow: 0 30px 80px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 30px 80px rgba(236, 72, 153, 0.35);
+}
 
-  max-width: 520px;
-  width: calc(100% - 32px);
+.conversation-card.is-hidden {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
 }
 
 /* ======================
-   Conversation Row (2 columns)
+   Conversation Row (Explicit Layout)
 ====================== */
 
 .conversation-row {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* balanced */
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 20px;
 }
 
-/* HER: avatar | message */
-.conversation-row.her {
-  direction: ltr;
+/* Cyril (me) — LEFT */
+.conversation-row.me .avatar-col {
+  order: 1;
 }
 
-/* ME: message | avatar */
-.conversation-row.me {
-  direction: rtl;
+.conversation-row.me .message-col {
+  order: 2;
 }
 
-/* Reset direction inside columns */
-.conversation-col {
-  direction: ltr;
+/* Danica (her) — RIGHT */
+.conversation-row.her .avatar-col {
+  order: 2;
+}
+
+.conversation-row.her .message-col {
+  order: 1;
+  text-align: right;
 }
 
 /* ======================
@@ -154,10 +163,7 @@
 ====================== */
 
 .conversation-options {
-  margin-top: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: none;
 }
 
 .conversation-options button {
