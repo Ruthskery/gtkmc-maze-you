@@ -2,6 +2,8 @@ import { levels } from "./levels.js";
 import { drawMaze, resizeCanvas } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
 import { showMessage, isDialogueActive } from "./conversation.js";
+import { playDing } from "./audio.js";
+
 
 
 /* ======================
@@ -106,6 +108,8 @@ function waitForTap() {
 ====================== */
 
 async function handleExit(exitKey) {
+  playDing(); 
+  
   const level = levels[currentLevel];
   exitLocked = true;
 

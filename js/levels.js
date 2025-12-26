@@ -1,6 +1,6 @@
 export const levels = [
   {
-    title: "Fast Food",
+    title: "Food",
     subtitle: "Hmm… what should we eat?",
     exits: {
       E1: "McDo",
@@ -48,7 +48,7 @@ export const levels = [
   },
 
   {
-    title: "Coffee Place",
+    title: "Drinks",
     subtitle: "Let’s get some drinks ✨🧋",
     exits: {
       E1: "Starbucks",
@@ -97,7 +97,7 @@ export const levels = [
   },
 
   {
-    title: "Go To Place",
+    title: "Place",
     subtitle: "Where do you feel like going?",
     exits: {
       E1: "SM",

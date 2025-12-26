@@ -37,7 +37,7 @@ function showTyping(who) {
   row.className = `conversation-row ${who}`;
   avatar.classList.remove("avatar-show");
 
-  speaker.textContent = who === "me" ? "Me" : "You";
+  speaker.textContent = who === "me" ? "Cy" : "You";
 
   text.innerHTML = `
     <span class="typing">
