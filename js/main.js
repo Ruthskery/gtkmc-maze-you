@@ -2,6 +2,8 @@ import { levels } from "./levels.js";
 import { drawMaze, resizeCanvas } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
 import { showMessage, isDialogueActive } from "./conversation.js";
+import { playDing } from "./audio.js";
+
 
 
 /* ======================
@@ -32,6 +34,23 @@ const resultScreen = document.getElementById("resultScreen");
 const resultText = document.getElementById("resultText");
 const resultList = document.getElementById("resultList");
 const restartBtn = document.getElementById("restartBtn");
+
+// 👇 ADD THIS RIGHT HERE
+restartBtn.addEventListener("click", () => {
+  const card = document.getElementById("resultCard");
+  const credits = document.getElementById("endCredits");
+
+  card.classList.add("opacity-0");
+
+  setTimeout(() => {
+    card.classList.add("hidden");
+    credits.classList.remove("hidden");
+
+    requestAnimationFrame(() => {
+      credits.classList.remove("opacity-0");
+    });
+  }, 500);
+});
 
 /* ======================
    Level Handling
@@ -106,6 +125,8 @@ function waitForTap() {
 ====================== */
 
 async function handleExit(exitKey) {
+  playDing(); 
+
   const level = levels[currentLevel];
   exitLocked = true;
 
@@ -207,10 +228,6 @@ function generatePersonality(history) {
   }
   return "You love exploring feelings and connections 💕✨";
 }
-
-restartBtn.addEventListener("click", () => {
-  location.reload();
-});
 
 /* ======================
    Movement

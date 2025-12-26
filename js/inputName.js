@@ -1,5 +1,7 @@
 import { validatePlayerName } from "./player.js";
 import { startGame } from "./main.js";
+import { startMusic } from "./audio.js"; // 👈 add this
+
 
 const screen = document.getElementById("inputNameScreen");
 const input = document.getElementById("inputNameInput");
@@ -27,7 +29,8 @@ function submitName() {
   error.textContent = "";
   screen.classList.add("input-name-hidden");
 
-  startGame(result);
+  startMusic();      // 🎵 STARTS HERE (guaranteed allowed)
+  startGame(result); // game logic only
 }
 
 button.addEventListener("click", submitName);
