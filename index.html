@@ -13,7 +13,10 @@
   <link rel="stylesheet" href="css/style.css">
 
   <!-- Input Name -->
-  <link rel="stylesheet" href="components/inputName/inputName.css">
+  <link rel="stylesheet" href="css/inputName.css">
+
+  <!-- Conversation Box -->
+  <link rel="stylesheet" href="css/conversationBox.css">
 
 </head>
 
@@ -71,14 +74,6 @@
       <!-- Right Panel -->
       <div class="flex flex-col items-center gap-6">
 
-        <!-- Choices -->
-        <div class="w-full bg-white/60 rounded-2xl p-3 sm:p-4 shadow">
-          <h3 class="text-xs sm:text-sm text-pink-700 mb-2 sm:mb-3 text-center">
-            Your Choices 💗
-          </h3>
-          <ul id="choicesList" class="space-y-2"></ul>
-        </div>
-
         <!-- Controls -->
         <div class="flex flex-col items-center gap-2 select-none">
           <div class="relative w-32 h-32 sm:w-28 sm:h-28">
@@ -122,6 +117,7 @@
 
           <p class="text-xs text-pink-600">Move 💫</p>
         </div>
+        
       </div>
     </div>
   </div>
@@ -151,6 +147,35 @@
     </div>
   </div>
 
-  <script type="module" src="components/inputName/inputName.js"></script>
+  <!-- Conversation Box -->
+  <div id="conversationBox" class="conversation-overlay">
+    <div id="conversationCard" class="conversation-card">
+
+      <div id="conversationRow" class="conversation-row her">
+
+        <!-- COLUMN 1 -->
+        <div class="conversation-col avatar-col">
+          <img id="conversationAvatar"
+              class="conversation-avatar"
+              alt="avatar">
+        </div>
+
+        <!-- COLUMN 2 -->
+        <div class="conversation-col message-col">
+          <p id="speakerLabel" class="conversation-speaker"></p>
+          <p id="messageText" class="conversation-text"></p>
+          <p id="tapHint" class="tap-hint hidden">tap to continue ▸</p>
+        </div>
+
+      </div>
+
+      <div id="conversationOptions" class="conversation-options"></div>
+    </div>
+  </div>
+
+
+  <script type="module" src="js/inputName.js"></script>
+  <script type="module" src="js/conversation.js"></script>
+
 </body>
 </html>

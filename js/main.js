@@ -1,6 +1,7 @@
 import { levels } from "./levels.js";
 import { drawMaze, resizeCanvas } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
+import { showMessage, isDialogueActive } from "./conversation.js";
 
 
 /* ======================
@@ -16,6 +17,8 @@ let playerName = null;
 let fade = 0;
 let fading = false;
 
+let exitLocked = false;
+
 /* ======================
    DOM
 ====================== */
@@ -25,8 +28,6 @@ const ctx = canvas.getContext("2d");
 
 const titleEl = document.querySelector("h1");
 const subtitleEl = document.querySelector(".subtitle");
-const choicesList = document.getElementById("choicesList");
-
 const resultScreen = document.getElementById("resultScreen");
 const resultText = document.getElementById("resultText");
 const resultList = document.getElementById("resultList");
@@ -40,55 +41,101 @@ function loadLevel(index) {
   const level = levels[index];
   maze = level.maze;
   playerPos = { x: 1, y: 1 };
+  exitLocked = false;
 
-  // Resize canvas for current level
   resizeCanvas(index);
 
-  // Cute title + subtitle
   titleEl.textContent = `${level.title} 💕`;
-  subtitleEl.textContent = level.subtitle || "Choose with your heart 💖";
+  subtitleEl.textContent = level.subtitle;
 
-  // Populate choices
-  choicesList.innerHTML = "";
-  Object.entries(level.exits).forEach(([key, label]) => {
-    const li = document.createElement("li");
-    li.textContent = label;
-    li.dataset.exit = key;
-    li.className =
-      "bg-pink-100/70 text-pink-900 rounded-xl px-3 py-2 text-sm " +
-      "shadow hover:bg-pink-200 transition";
-    choicesList.appendChild(li);
-  });
-
-  fade = 1;
-  fading = true;
+  showMessage(level.subtitle, "me");
 }
+
+/* ======================
+   Delay/Thinking
+====================== */
+function delay(ms) {
+  return new Promise(res => setTimeout(res, ms));
+}
+
+/* ======================
+   Dialogoue
+====================== */
+
+async function playDialogue(lines) {
+  for (const line of lines) {
+    showMessage(line.text, line.who);
+    await waitForTap(); // ⬅️ YOU control the pace
+  }
+}
+
+/* ======================
+   Next Tap
+====================== */
+
+function waitForTap() {
+  return new Promise(resolve => {
+    const card = document.getElementById("conversationCard");
+
+    const done = () => {
+      card.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+      resolve();
+    };
+
+    const onClick = () => {
+      done();
+    };
+
+    const onKey = e => {
+      if (e.code === "Space") {
+        e.preventDefault(); // prevent page scroll
+        done();
+      }
+    };
+
+    card.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+  });
+}
+
+
 
 /* ======================
    Exit Handling
 ====================== */
 
-function handleExit(exitKey) {
+async function handleExit(exitKey) {
   const level = levels[currentLevel];
-  const choice = level.exits[exitKey];
+  exitLocked = true;
+
+  const dialogue = level.dialogue?.[exitKey];
+
+  if (dialogue) {
+    await playDialogue(dialogue);
+  } else {
+    // fallback
+    showMessage(level.exits[exitKey], "me");
+    await waitForTap();
+    showMessage("Interesting choice 💕", "her");
+    await waitForTap();
+  }
 
   choiceHistory.push({
     category: level.title,
-    choice
+    choice: level.exits[exitKey]
   });
 
-  animateChoice(exitKey);
+  currentLevel++;
+  exitLocked = false;
 
-  setTimeout(() => {
-    currentLevel++;
-
-    if (currentLevel >= levels.length) {
-      showResultScreen();
-    } else {
-      loadLevel(currentLevel);
-    }
-  }, 600);
+  if (currentLevel >= levels.length) {
+    showResultScreen();
+  } else {
+    loadLevel(currentLevel);
+  }
 }
+
 
 /* ======================
    Choice Animation
@@ -170,6 +217,9 @@ restartBtn.addEventListener("click", () => {
 ====================== */
 
 function movePlayer(dx, dy) {
+  if (exitLocked) return;
+  if (isDialogueActive()) return; // ✅ WORKS NOW
+
   const nx = playerPos.x + dx;
   const ny = playerPos.y + dy;
 
@@ -179,6 +229,7 @@ function movePlayer(dx, dy) {
 
   const cell = maze[ny][nx];
   if (typeof cell === "string" && cell.startsWith("E")) {
+    exitLocked = true;
     handleExit(cell);
   }
 }
@@ -277,5 +328,3 @@ export function startGame(name) {
   loadLevel(currentLevel);
   gameLoop();
 }
-
-
