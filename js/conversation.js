@@ -105,14 +105,24 @@ function advanceDialogue() {
   hideConversation(); // 👈 fades OUT
 }
 
+function globalAdvanceHandler(e) {
+  if (!waitingForTap || waitingForChoice) return;
+
+  if (e.type === "touchend") {
+    e.preventDefault();
+  }
+
+  advanceDialogue();
+}
+
+
 export function isDialogueActive() {
   return !card.classList.contains("is-hidden");
 }
 
-card.addEventListener("click", () => {
-  if (!waitingForTap || waitingForChoice) return;
-  advanceDialogue();
-});
+card.addEventListener("click", globalAdvanceHandler);
+card.addEventListener("touchend", globalAdvanceHandler, { passive: false });
+
 
 document.addEventListener("keydown", e => {
   if (e.code !== "Space") return;
