@@ -98,6 +98,7 @@ function waitForTap() {
 
     const done = () => {
       card.removeEventListener("click", onClick);
+      card.removeEventListener("touchend", onTouch);
       document.removeEventListener("keydown", onKey);
       resolve();
     };
@@ -106,19 +107,23 @@ function waitForTap() {
       done();
     };
 
+    const onTouch = e => {
+      e.preventDefault(); // ⬅️ important for mobile
+      done();
+    };
+
     const onKey = e => {
       if (e.code === "Space") {
-        e.preventDefault(); // prevent page scroll
+        e.preventDefault();
         done();
       }
     };
 
     card.addEventListener("click", onClick);
+    card.addEventListener("touchend", onTouch, { passive: false });
     document.addEventListener("keydown", onKey);
   });
 }
-
-
 
 /* ======================
    Exit Handling
