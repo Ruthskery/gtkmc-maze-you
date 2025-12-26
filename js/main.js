@@ -264,12 +264,16 @@ let touchStartX = 0;
 let touchStartY = 0;
 
 canvas.addEventListener("touchstart", e => {
+  if (isDialogueActive()) return; // 👈 ADD THIS
+
   const t = e.touches[0];
   touchStartX = t.clientX;
   touchStartY = t.clientY;
 });
 
 canvas.addEventListener("touchend", e => {
+  if (isDialogueActive()) return; // 👈 ADD THIS
+
   const t = e.changedTouches[0];
   const dx = t.clientX - touchStartX;
   const dy = t.clientY - touchStartY;
