@@ -126,9 +126,8 @@ export function isDialogueActive() {
   return !card.classList.contains("is-hidden");
 }
 
-card.addEventListener("click", globalAdvanceHandler);
-card.addEventListener("touchend", globalAdvanceHandler, { passive: false });
-
+document.addEventListener("click", globalAdvanceHandler);
+document.addEventListener("touchend", globalAdvanceHandler, { passive: false });
 
 document.addEventListener("keydown", e => {
   if (e.code !== "Space") return;
