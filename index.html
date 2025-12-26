@@ -124,34 +124,58 @@
 
   <!-- Result Screen -->
   <div id="resultScreen"
-       class="fixed inset-0 bg-pink-100/90 backdrop-blur
+      class="fixed inset-0 bg-pink-100/90 backdrop-blur
               hidden z-50 flex items-center justify-center p-4">
 
-    <div class="bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6 w-full max-w-md
-                shadow-[0_30px_80px_rgba(236,72,153,0.4)]
-                space-y-3 sm:space-y-4 text-center max-h-[90vh] overflow-y-auto">
+    <!-- Result Card -->
+    <div id="resultCard"
+        class="bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6
+                w-full max-w-md shadow-[0_30px_80px_rgba(236,72,153,0.4)]
+                space-y-3 sm:space-y-4 text-center max-h-[90vh] overflow-y-auto
+                transition-opacity duration-500">
 
-      <h2 class="text-xl sm:text-2xl font-semibold"> So… Here’s Your Result 💕</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold">
+        So… Here’s Your Result 💕
+      </h2>
+
       <p class="text-pink-500 text-xs italic">
         Made with care, just for you ✨
       </p>
 
       <p id="resultText"
-        class="text-pink-700 text-sm sm:text-base leading-relaxed px-1">
-      </p>
+        class="text-pink-700 text-sm sm:text-base leading-relaxed px-1"></p>
 
       <ul id="resultList"
-          class="space-y-2 text-xs sm:text-sm text-pink-800">
-      </ul>
-      
+          class="space-y-2 text-xs sm:text-sm text-pink-800"></ul>
+
       <button id="restartBtn"
               class="w-full mt-4 py-3 sm:py-2 rounded-xl
-                     bg-pink-400 hover:bg-pink-500
-                     text-white font-semibold active:scale-95
-                     touch-manipulation min-h-[44px]">
-        Play Again 💕
+                    bg-pink-400 hover:bg-pink-500
+                    text-white font-semibold active:scale-95
+                    touch-manipulation min-h-[44px]">
+        One Last Thing 🌸
       </button>
     </div>
+
+    <!-- End Credits -->
+    <div id="endCredits"
+        class="hidden opacity-0 transition-opacity duration-700
+                text-center space-y-3 max-w-md">
+
+      <p class="text-pink-500 text-sm italic">
+        Thank you for playing.
+      </p>
+
+      <p class="text-pink-600 text-sm leading-relaxed">
+        This little game was made with care,<br>
+        and with someone specific in mind.
+      </p>
+
+      <p class="text-pink-400 text-xs italic">
+        I enjoyed making this for you 💕
+      </p>
+    </div>
+
   </div>
 
   <!-- Conversation Box -->
