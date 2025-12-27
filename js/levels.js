@@ -98,34 +98,34 @@ export const levels = [
 
   {
     title: "Place",
-    subtitle: "Where do you feel like going?",
+    subtitle: "Where would you like to go?",
     exits: {
-      E1: "SM",
-      E2: "Ugbo",
-      E3: "Intramuros"
+      E1: "Mall",
+      E2: "Beach",
+      E3: "Park"
     },
     dialogue: {
       E1: [
         // { who: "me", text: "Where do you want to go?" },
-        { who: "her", text: "SM 🛍️" },
-        { who: "me", text: "Shopping date? 😌" },
+        { who: "her", text: "Mall 🛍️" },
+        { who: "me", text: "Could be fun to go together 🤩" },
       ],
 
       E2: [
         // { who: "me", text: "I’m thinking something chill." },
-        { who: "her", text: "Ugbo 🍢" },
-        { who: "me", text: "Street food trip? 😋" },
+        { who: "her", text: "Beach 🍢" },
+        { who: "me", text: "Beach sounds relaxing 🐚" },
       ],
 
       E3: [
         // { who: "me", text: "What about somewhere different?" },
-        { who: "her", text: "Intramuros 🏛️" },
-        { who: "me", text: "That’s romantic 😳" },
+        { who: "her", text: "Park 🏞️" },
+        { who: "me", text: "That actually sounds really nice ☺️" },
       ]
     },
     logos: {
       E1: "assets/images/sm.png",
-      E2: "assets/images/ugbo.png",
+      E2: "assets/images/beach.jpg",
       E3: "assets/images/intramuros.png"
     },
    maze: [

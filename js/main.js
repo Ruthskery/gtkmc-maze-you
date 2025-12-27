@@ -4,6 +4,7 @@ import { sendMazeResult } from "./api.js";
 import { showMessage, isDialogueActive, waitForConversationAdvance } from "./conversation.js";
 import { playDing } from "./audio.js";
 
+
 /* ======================
    State
 ====================== */
@@ -169,14 +170,23 @@ function showResultScreen() {
 ====================== */
 
 function sendResultToServer() {
- if (!playerName) return;
+  console.log("🔥 sendResultToServer CALLED");
 
-  sendMazeResult({
+  if (!playerName) {
+    console.log("❌ No playerName, aborting");
+    return;
+  }
+
+  const payload = {
     playerName,
     choices: choiceHistory.map(c => `${c.category}: ${c.choice}`),
     personality: generatePersonality(choiceHistory),
     won: true
-  });
+  };
+
+  console.log("📦 Payload:", payload);
+
+  sendMazeResult(payload);
 }
 
 
