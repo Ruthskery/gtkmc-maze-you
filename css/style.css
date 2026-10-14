@@ -186,14 +186,6 @@ body {
     align-items: center;
     touch-action: manipulation;
   }
-
-  /* Result screen mobile adjustments */
-  #resultScreen > div {
-    padding: 20px;
-    margin: 16px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
 }
 
 @media (max-width: 480px) {

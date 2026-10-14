@@ -33,6 +33,7 @@ const subtitleEl = document.querySelector(".subtitle");
 const resultScreen = document.getElementById("resultScreen");
 const resultText = document.getElementById("resultText");
 const resultList = document.getElementById("resultList");
+const resultName = document.getElementById("resultName");
 const restartBtn = document.getElementById("restartBtn");
 const resultCard = document.getElementById("resultCard");
 const endCredits = document.getElementById("endCredits");
@@ -132,7 +133,8 @@ async function handleExit(exitKey) {
 
   choiceHistory.push({
     category: level.title,
-    choice: level.exits[exitKey]
+    choice: level.exits[exitKey],
+    icon: level.logos?.[exitKey]
   });
 
   currentLevel++;
@@ -153,14 +155,32 @@ async function handleExit(exitKey) {
 function showResultScreen() {
   resultList.innerHTML = "";
 
-  choiceHistory.forEach(entry => {
+  choiceHistory.forEach((entry, i) => {
     const li = document.createElement("li");
-    li.className =
-      "bg-pink-100/70 text-pink-900 rounded-xl px-3 py-2 shadow";
-    li.textContent = `${entry.category}: ${entry.choice}`;
+    li.className = "plan-item";
+    li.style.setProperty("--i", i);
+
+    if (entry.icon) {
+      const img = document.createElement("img");
+      img.className = "plan-icon";
+      img.src = entry.icon;
+      img.alt = "";
+      li.appendChild(img);
+    }
+
+    const category = document.createElement("span");
+    category.className = "plan-category";
+    category.textContent = entry.category;
+
+    const choice = document.createElement("span");
+    choice.className = "plan-choice font-display";
+    choice.textContent = entry.choice;
+
+    li.append(category, choice);
     resultList.appendChild(li);
   });
 
+  resultName.textContent = playerName || "you";
   resultText.textContent = generatePersonality(choiceHistory);
   resultScreen.classList.remove("hidden");
 
