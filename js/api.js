@@ -4,6 +4,12 @@ const API_BASE =
     ? "http://localhost:4000" // 3000/3001 are used by the portfolio dev server
     : "https://gtkmc-maze-server.onrender.com";
 
+// Render's free tier sleeps when idle and takes ~1 min to wake,
+// so ping it on load — it's awake by the time the maze is finished
+export function wakeServer() {
+  fetch(`${API_BASE}/health`).catch(() => {});
+}
+
 export async function sendMazeResult(data) {
   try {
     const res = await fetch(`${API_BASE}/api/maze-result`, {

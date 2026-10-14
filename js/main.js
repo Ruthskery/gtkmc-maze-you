@@ -1,6 +1,6 @@
 import { levels } from "./levels.js";
 import { drawMaze, resizeCanvas, resetPlayerAnimation, celebrate } from "./rendererCanvas.js";
-import { sendMazeResult } from "./api.js";
+import { sendMazeResult, wakeServer } from "./api.js";
 import { showMessage, isDialogueActive, waitForConversationAdvance } from "./conversation.js";
 import { playDing } from "./audio.js";
 
@@ -368,6 +368,8 @@ window.addEventListener("orientationchange", () => {
 /* ======================
    Start
 ====================== */
+
+wakeServer();
 
 export function startGame(name) {
   playerName = name;
