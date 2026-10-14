@@ -2,7 +2,14 @@
 export const bgMusic = new Audio("assets/sounds/background.mp3");
 const ding = new Audio("assets/sounds/ding.mp3");
 
+let muted = false;
+try {
+  muted = localStorage.getItem("maze-muted") === "1";
+} catch {}
+
 bgMusic.loop = true;
+bgMusic.muted = muted;
+ding.muted = muted;
 bgMusic.volume = 0.4;
 ding.volume = 0.7;
 
@@ -34,4 +41,21 @@ export function playDing() {
   ding.play().catch(err => {
     console.error("Ding failed:", err);
   });
+}
+
+// 🔇 Mute toggle (remembered between visits)
+export function isMuted() {
+  return muted;
+}
+
+export function toggleMute() {
+  muted = !muted;
+  bgMusic.muted = muted;
+  ding.muted = muted;
+
+  try {
+    localStorage.setItem("maze-muted", muted ? "1" : "0");
+  } catch {}
+
+  return muted;
 }

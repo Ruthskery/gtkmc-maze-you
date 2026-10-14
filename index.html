@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <meta name="mobile-web-app-capable" content="yes" />
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&display=swap">
+
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -27,8 +32,8 @@
     <!-- Input Name Screen -->
     <div id="inputNameScreen" class="input-name-overlay">
 
-      <div class="input-name-card">
-        <h2>Hi there 💕</h2>
+      <div class="input-name-card premium-card">
+        <h2 class="font-display">Hi there&nbsp;💕</h2>
         <p>What’s your name?</p>
 
         <input
@@ -134,13 +139,13 @@
 
     <!-- Result Card -->
     <div id="resultCard"
-        class="bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6
+        class="premium-card bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6
                 w-full max-w-md shadow-[0_30px_80px_rgba(236,72,153,0.4)]
                 space-y-3 sm:space-y-4 text-center max-h-[90vh] overflow-y-auto
                 transition-opacity duration-500">
 
-      <h2 class="text-xl sm:text-2xl font-semibold">
-        So… Here’s Your Result 💕
+      <h2 class="font-display text-2xl sm:text-3xl font-semibold">
+        So… here’s your result&nbsp;💕
       </h2>
 
       <p class="text-pink-500 text-xs italic">
@@ -148,7 +153,7 @@
       </p>
 
       <p id="resultText"
-        class="text-pink-700 text-sm sm:text-base leading-relaxed px-1"></p>
+        class="font-display text-pink-800 text-base sm:text-lg leading-relaxed px-1"></p>
 
       <ul id="resultList"
           class="space-y-2 text-xs sm:text-sm text-pink-800"></ul>
@@ -179,35 +184,50 @@
       <p class="text-pink-400 text-xs italic">
         I enjoyed making this for you 💕
       </p>
+
+      <button id="playAgainBtn"
+              class="w-full mt-4 py-3 sm:py-2 rounded-xl
+                    bg-pink-400 hover:bg-pink-500
+                    text-white font-semibold active:scale-95
+                    touch-manipulation min-h-[44px]">
+        Play Again 🔁
+      </button>
     </div>
 
   </div>
 
   <!-- Conversation Box -->
   <div id="conversationBox" class="conversation-overlay">
-    <div id="conversationCard" class="conversation-card">
+    <div id="conversationCard" class="conversation-card is-hidden" data-who="me"
+         role="dialog" aria-label="Conversation">
 
-      <div id="conversationRow" class="conversation-row her">
+      <div id="conversationRow" class="conversation-row me">
 
-        <!-- COLUMN 1 -->
-        <div class="conversation-col avatar-col">
-          <img id="conversationAvatar"
-              class="conversation-avatar"
-              alt="avatar">
+        <div class="avatar-col">
+          <img id="conversationAvatar" class="conversation-avatar" alt="">
         </div>
 
-        <!-- COLUMN 2 -->
-        <div class="conversation-col message-col">
+        <div class="message-col">
           <p id="speakerLabel" class="conversation-speaker"></p>
-          <p id="messageText" class="conversation-text"></p>
-          <p id="tapHint" class="tap-hint hidden">tap to continue or space ▸</p>
+          <p id="messageText" class="conversation-text" aria-hidden="true"></p>
+          <p id="messageLive" class="sr-only" aria-live="polite"></p>
         </div>
 
       </div>
 
+      <p id="tapHint" class="tap-hint hidden">
+        <span class="hint-touch">Tap to continue</span>
+        <span class="hint-keys">Space to continue</span>
+        <span class="tap-chevron" aria-hidden="true">›</span>
+      </p>
+
       <div id="conversationOptions" class="conversation-options"></div>
     </div>
   </div>
+
+  <!-- Mute Button -->
+  <button id="muteBtn" class="mute-btn" type="button" data-no-advance
+          aria-label="Mute music" aria-pressed="false">🔊</button>
 
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/inputName.js"></script>
