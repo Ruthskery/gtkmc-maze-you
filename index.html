@@ -59,10 +59,15 @@
       <p class="subtitle text-pink-600 text-xs sm:text-sm">
         Let's see what kind of crush you are 🌸
       </p>
+      <!-- Desktop only (shown where the on-screen arrows are hidden) -->
+      <p class="keyboard-hint text-pink-500 text-xs">
+        Use <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to move ·
+        <kbd>Space</kbd> to continue 💫
+      </p>
     </div>
 
     <!-- Main Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-4 sm:gap-6 items-start md:items-center justify-items-center md:justify-items-stretch">
+    <div class="game-layout grid grid-cols-1 md:grid-cols-[1fr_260px] gap-4 sm:gap-6 items-start md:items-center justify-items-center md:justify-items-stretch">
 
       <!-- Maze -->
       <div class="flex justify-center items-center w-full">
@@ -71,8 +76,8 @@
         </div>
       </div>
 
-      <!-- Right Panel -->
-      <div class="flex flex-col items-center gap-6">
+      <!-- Right Panel (on-screen arrows: mobile & tablet only) -->
+      <div class="controls-panel flex flex-col items-center gap-6">
 
         <!-- Controls -->
         <div class="flex flex-col items-center gap-2 select-none">

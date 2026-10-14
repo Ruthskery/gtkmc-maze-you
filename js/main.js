@@ -1,5 +1,5 @@
 import { levels } from "./levels.js";
-import { drawMaze, resizeCanvas } from "./rendererCanvas.js";
+import { drawMaze, resizeCanvas, resetPlayerAnimation } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
 import { showMessage, isDialogueActive, waitForConversationAdvance } from "./conversation.js";
 import { playDing } from "./audio.js";
@@ -60,6 +60,13 @@ function loadLevel(index) {
   maze = level.maze;
   playerPos = { x: 1, y: 1 };
   exitLocked = false;
+
+  // Respawn at the start instead of gliding back through the walls
+  resetPlayerAnimation();
+  if (index > 0) {
+    fade = 1;
+    fading = true;
+  }
 
   resizeCanvas(index);
 
@@ -126,24 +133,6 @@ async function handleExit(exitKey) {
 
 
 /* ======================
-   Choice Animation
-====================== */
-
-function animateChoice(exitKey) {
-  document.querySelectorAll("#choicesList li").forEach(li => {
-    if (li.dataset.exit === exitKey) {
-      li.classList.add(
-        "bg-pink-300/60",
-        "ring-2",
-        "ring-pink-400",
-        "scale-105",
-        "transition"
-      );
-    }
-  });
-}
-
-/* ======================
    Result Screen
 ====================== */
 
@@ -190,19 +179,33 @@ function sendResultToServer() {
 }
 
 
-function generatePersonality(history) {
-  const categories = history.map(h => h.category);
+const choiceTraits = {
+  McDo: "you like the classics",
+  Jollibee: "you love comfort food",
+  Chowking: "you're up for something different",
+  Starbucks: "a comfy coffee run is your thing",
+  Chagee: "you've got fancy taste in drinks",
+  Coco: "you've got a sweet tooth",
+  Mall: "you enjoy lively places",
+  Beach: "you love to relax and unwind",
+  Park: "you appreciate calm, simple moments",
+  Morning: "you're a morning person",
+  Afternoon: "you like easy afternoons",
+  Night: "you come alive at night"
+};
 
-  if (categories.includes("Fast Food")) {
-    return "You love comfort and familiar choices 🍔💖 You’re cozy and sweet.";
+function generatePersonality(history) {
+  const traits = history
+    .map(h => choiceTraits[h.choice])
+    .filter(Boolean);
+
+  if (traits.length === 0) {
+    return "You love exploring feelings and connections 💕✨";
   }
-  if (categories.includes("Coffee Place")) {
-    return "You adore calm moments ☕🌸 You value vibes and emotional balance.";
-  }
-  if (categories.includes("Pasta")) {
-    return "You appreciate classic romance 🍝💕 Deep feelings matter to you.";
-  }
-  return "You love exploring feelings and connections 💕✨";
+
+  const last = traits.pop();
+  const list = traits.length ? `${traits.join(", ")}, and ${last}` : last;
+  return `From what you picked, ${list} 💕✨`;
 }
 
 /* ======================
@@ -250,12 +253,22 @@ function gameLoop() {
    Controls
 ====================== */
 
-// Keyboard
+// Keyboard (arrows + WASD)
+const keyDirs = {
+  ArrowUp: [0, -1], w: [0, -1], W: [0, -1],
+  ArrowDown: [0, 1], s: [0, 1], S: [0, 1],
+  ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0],
+  ArrowRight: [1, 0], d: [1, 0], D: [1, 0]
+};
+
 document.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") movePlayer(0, -1);
-  if (e.key === "ArrowDown") movePlayer(0, 1);
-  if (e.key === "ArrowLeft") movePlayer(-1, 0);
-  if (e.key === "ArrowRight") movePlayer(1, 0);
+  if (!playerName || e.target instanceof HTMLInputElement) return;
+
+  const dir = keyDirs[e.key];
+  if (!dir) return;
+
+  e.preventDefault(); // stop arrow keys from scrolling the page
+  movePlayer(...dir);
 });
 
 // Click arrows
@@ -305,14 +318,14 @@ let resizeTimeout;
 function handleResize() {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    resizeCanvas(currentLevel);
+    resizeCanvas(Math.min(currentLevel, levels.length - 1));
   }, 150);
 }
 
 window.addEventListener("resize", handleResize);
 window.addEventListener("orientationchange", () => {
   setTimeout(() => {
-    resizeCanvas(currentLevel);
+    resizeCanvas(Math.min(currentLevel, levels.length - 1));
   }, 300);
 });
 

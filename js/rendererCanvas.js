@@ -3,6 +3,11 @@ import { levels } from "./levels.js";
 export let CELL = 34;
 const MAZE_PADDING = 12;
 
+// Keep in sync with the .controls-panel media query in css/style.css
+const controlsHiddenQuery = window.matchMedia(
+  "(min-width: 1024px) and (hover: hover) and (pointer: fine)"
+);
+
 const avatarImg = new Image();
 avatarImg.src = "assets/images/avatar/bg-danica-cartoon.png";
 
@@ -36,8 +41,9 @@ export function resizeCanvas(currentLevel = 0) {
     // Card padding is 40px (20px * 2), canvas border is 8px (4px * 2)
     const containerMaxWidth = 1280;
     const containerPadding = 32;
-    const rightPanelWidth = 260;
-    const gap = 24;
+    const controlsHidden = controlsHiddenQuery.matches;
+    const rightPanelWidth = controlsHidden ? 0 : 260;
+    const gap = controlsHidden ? 0 : 24;
     const cardPadding = 40;
     const canvasBorder = 8;
     
@@ -193,7 +199,7 @@ function drawExits(maze, levelIndex) {
         const logo = getLogo(levelIndex, cell);
 
         if (logo && logo.complete && logo.naturalWidth > 0) {
-          const size = 26;
+          const size = Math.min(26, CELL * 0.8);
 
           ctx.save();
 
@@ -237,7 +243,10 @@ function drawPlayer(playerPos, now) {
   renderPos.x += (lastTargetPos.x - renderPos.x) * MOVE_SPEED;
   renderPos.y += (lastTargetPos.y - renderPos.y) * MOVE_SPEED;
 
-  if (Math.abs(renderPos.x - lastTargetPos.x) < 0.001) {
+  if (
+    Math.abs(renderPos.x - lastTargetPos.x) < 0.001 &&
+    Math.abs(renderPos.y - lastTargetPos.y) < 0.001
+  ) {
     renderPos.x = lastTargetPos.x;
     renderPos.y = lastTargetPos.y;
   }
@@ -249,8 +258,8 @@ function drawPlayer(playerPos, now) {
   const cx = renderPos.x * CELL + CELL / 2 + MAZE_PADDING;
   const cy = renderPos.y * CELL + CELL / 2 + MAZE_PADDING;
 
-  const baseRadius = 12;
-  const size = baseRadius * 3 * easeOut;
+  const baseRadius = Math.min(12, CELL * 0.35);
+  const size = Math.min(36, CELL * 1.05) * easeOut;
 
   if (avatarImg.complete && avatarImg.naturalWidth > 0) {
     ctx.save();
