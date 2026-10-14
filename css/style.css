@@ -71,6 +71,46 @@ body {
 }
 
 /* ======================
+   Desktop: hide on-screen arrows
+   (keyboard + mouse devices only; phones and tablets keep them)
+====================== */
+
+.keyboard-hint {
+  display: none;
+  padding-top: 4px;
+}
+
+.keyboard-hint kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 5px;
+  margin: 0 1px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  text-align: center;
+  color: #9d174d;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #f9a8d4;
+  border-bottom-width: 2px;
+  border-radius: 6px;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .controls-panel {
+    display: none !important;
+  }
+
+  .keyboard-hint {
+    display: block;
+  }
+
+  .game-layout.game-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ======================
    Mobile Adjustments
 ====================== */
 
