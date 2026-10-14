@@ -1,12 +1,32 @@
 import { validatePlayerName } from "./player.js";
 import { startGame } from "./main.js";
-import { startMusic } from "./audio.js"; // 👈 add this
+import { startMusic, isMuted, toggleMute } from "./audio.js";
 
 
 const screen = document.getElementById("inputNameScreen");
 const input = document.getElementById("inputNameInput");
 const error = document.getElementById("inputNameError");
 const button = document.getElementById("inputNameButton");
+const muteBtn = document.getElementById("muteBtn");
+
+/* ======================
+   Mute Button
+====================== */
+
+function renderMuteBtn() {
+  const muted = isMuted();
+  muteBtn.textContent = muted ? "🔇" : "🔊";
+  muteBtn.setAttribute("aria-label", muted ? "Unmute music" : "Mute music");
+  muteBtn.setAttribute("aria-pressed", String(muted));
+}
+
+muteBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  toggleMute();
+  renderMuteBtn();
+});
+
+renderMuteBtn();
 
 /* ======================
    Always show input screen

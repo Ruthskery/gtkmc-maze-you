@@ -19,6 +19,36 @@ body {
 }
 
 /* ======================
+   Mute Button
+====================== */
+
+.mute-btn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 55; /* above dialogue + result screen, below name input */
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  font-size: 20px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #f9a8d4;
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.25);
+  backdrop-filter: blur(6px);
+  touch-action: manipulation;
+  transition: transform 0.15s ease;
+}
+
+.mute-btn:hover {
+  transform: scale(1.06);
+}
+
+.mute-btn:active {
+  transform: scale(0.94);
+}
+
+/* ======================
    Layout
 ====================== */
 

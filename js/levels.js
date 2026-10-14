@@ -27,9 +27,9 @@ export const levels = [
       ]
     },
     logos: {
-      E1: "assets/images/mcdo.png",
-      E2: "assets/images/jabe.png",
-      E3: "assets/images/chowking.png"
+      E1: "assets/images/options/mcdo.svg",
+      E2: "assets/images/options/jollibee.svg",
+      E3: "assets/images/options/chowking.svg"
     },
     maze: [
     [1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -75,9 +75,9 @@ export const levels = [
       ]
     },
     logos: {
-      E1: "assets/images/starbucks.png",
-      E2: "assets/images/chagee.png",
-      E3: "assets/images/coco.jpg"
+      E1: "assets/images/options/starbucks.svg",
+      E2: "assets/images/options/chagee.svg",
+      E3: "assets/images/options/coco.svg"
     },
    maze: [
   [1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -124,9 +124,9 @@ export const levels = [
       ]
     },
     logos: {
-      E1: "assets/images/sm.png",
-      E2: "assets/images/beach.jpg",
-      E3: "assets/images/park.jpg"
+      E1: "assets/images/options/mall.svg",
+      E2: "assets/images/options/beach.svg",
+      E3: "assets/images/options/park.svg"
     },
    maze: [
     [1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -169,9 +169,9 @@ export const levels = [
       ]
     },
     logos: {
-      E1: "assets/images/Day.jpg",
-      E2: "assets/images/Afternoon.jpg",
-      E3: "assets/images/Night.jpg"
+      E1: "assets/images/options/morning.svg",
+      E2: "assets/images/options/afternoon.svg",
+      E3: "assets/images/options/night.svg"
     },
    maze: [
       [1,1,1,1,1,1,1,1,1,1,1,1,1],

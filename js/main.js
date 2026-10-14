@@ -1,5 +1,5 @@
 import { levels } from "./levels.js";
-import { drawMaze, resizeCanvas, resetPlayerAnimation } from "./rendererCanvas.js";
+import { drawMaze, resizeCanvas, resetPlayerAnimation, celebrate } from "./rendererCanvas.js";
 import { sendMazeResult } from "./api.js";
 import { showMessage, isDialogueActive, waitForConversationAdvance } from "./conversation.js";
 import { playDing } from "./audio.js";
@@ -12,6 +12,7 @@ import { playDing } from "./audio.js";
 let currentLevel = 0;
 let maze = [];
 let playerPos = { x: 1, y: 1 };
+let visited = new Set();
 let choiceHistory = [];
 let playerName = null;
 
@@ -33,22 +34,34 @@ const resultScreen = document.getElementById("resultScreen");
 const resultText = document.getElementById("resultText");
 const resultList = document.getElementById("resultList");
 const restartBtn = document.getElementById("restartBtn");
+const resultCard = document.getElementById("resultCard");
+const endCredits = document.getElementById("endCredits");
+const playAgainBtn = document.getElementById("playAgainBtn");
 
-// 👇 ADD THIS RIGHT HERE
 restartBtn.addEventListener("click", () => {
-  const card = document.getElementById("resultCard");
-  const credits = document.getElementById("endCredits");
-
-  card.classList.add("opacity-0");
+  resultCard.classList.add("opacity-0");
 
   setTimeout(() => {
-    card.classList.add("hidden");
-    credits.classList.remove("hidden");
+    resultCard.classList.add("hidden");
+    endCredits.classList.remove("hidden");
 
     requestAnimationFrame(() => {
-      credits.classList.remove("opacity-0");
+      endCredits.classList.remove("opacity-0");
     });
   }, 500);
+});
+
+playAgainBtn.addEventListener("click", e => {
+  e.stopPropagation();
+
+  // Put the result screen back the way it starts
+  resultScreen.classList.add("hidden");
+  resultCard.classList.remove("hidden", "opacity-0");
+  endCredits.classList.add("hidden", "opacity-0");
+
+  currentLevel = 0;
+  choiceHistory = [];
+  loadLevel(currentLevel);
 });
 
 /* ======================
@@ -59,6 +72,7 @@ function loadLevel(index) {
   const level = levels[index];
   maze = level.maze;
   playerPos = { x: 1, y: 1 };
+  visited = new Set(["1,1"]);
   exitLocked = false;
 
   // Respawn at the start instead of gliding back through the walls
@@ -222,10 +236,12 @@ function movePlayer(dx, dy) {
   if (!maze[ny] || maze[ny][nx] === 1) return;
 
   playerPos = { x: nx, y: ny };
+  visited.add(`${nx},${ny}`);
 
   const cell = maze[ny][nx];
   if (typeof cell === "string" && cell.startsWith("E")) {
     exitLocked = true;
+    celebrate(nx, ny);
     handleExit(cell);
   }
 }
@@ -235,7 +251,7 @@ function movePlayer(dx, dy) {
 ====================== */
 
 function gameLoop() {
-  drawMaze(maze, playerPos, currentLevel);
+  drawMaze(maze, playerPos, currentLevel, visited);
 
   if (fading) {
     fade -= 0.05;
