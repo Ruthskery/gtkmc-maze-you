@@ -1,0 +1,229 @@
+/* ======================
+   Result Screen
+   (uses tokens + .premium-card from conversationBox.css)
+====================== */
+
+.result-screen {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(249, 168, 212, 0.55), transparent 50%),
+    radial-gradient(circle at 85% 88%, rgba(196, 181, 253, 0.5), transparent 50%),
+    rgba(255, 241, 246, 0.86);
+  backdrop-filter: blur(10px);
+}
+
+/* ======================
+   Cards
+====================== */
+
+.result-card {
+  border-radius: 32px;
+  padding: 30px 26px 26px;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* Rises in each time the screen (or the credits) appear */
+.result-screen:not(.hidden) .result-card:not(.hidden) {
+  animation: card-rise 0.6s var(--spring) backwards; /* backwards: the fade-out class still works after */
+}
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ======================
+   Heading + Personality
+====================== */
+
+.result-title {
+  font-size: clamp(1.6rem, 5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.result-sub {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #db2777;
+}
+
+.result-text {
+  max-width: 34ch;
+  margin: 20px auto 0;
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: #9d174d;
+  text-wrap: pretty;
+}
+
+/* ======================
+   Date Plan (the four picks)
+====================== */
+
+.result-plan {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 10px 12px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1.5px solid #fbcfe8;
+  box-shadow: 0 10px 20px -12px rgba(190, 24, 93, 0.4);
+
+  /* One by one, like stamps on a postcard */
+  animation: stamp-in 0.5s var(--spring) backwards;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.12s);
+}
+
+@keyframes stamp-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.85) rotate(-4deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+.plan-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 4px 6px rgba(190, 24, 93, 0.18));
+}
+
+.plan-category {
+  font-size: 0.72rem;
+  color: #db2777;
+}
+
+.plan-choice {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* ======================
+   Buttons
+====================== */
+
+.result-button {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 24px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f472b6, #ec4899 45%, #a78bfa);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 14px 28px -12px rgba(219, 39, 119, 0.6);
+  touch-action: manipulation;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.result-button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 18px 32px -12px rgba(219, 39, 119, 0.65);
+}
+
+.result-button:active {
+  transform: scale(0.97);
+}
+
+.result-button:focus-visible {
+  outline: 3px solid #c4b5fd;
+  outline-offset: 3px;
+}
+
+/* Secondary: Play Again */
+.result-button-quiet {
+  color: #be185d;
+  background: #ffffff;
+  border: 2px solid #f9a8d4;
+  box-shadow: 0 10px 22px -14px rgba(190, 24, 93, 0.45);
+}
+
+.result-button-quiet:hover {
+  background: #fdf2f8;
+  box-shadow: 0 12px 24px -14px rgba(190, 24, 93, 0.5);
+}
+
+/* ======================
+   End Credits
+====================== */
+
+.credits-card {
+  padding: 36px 28px 26px;
+}
+
+.credits-thanks {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.credits-text {
+  margin-top: 14px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #9d174d;
+}
+
+.credits-sign {
+  margin-top: 16px;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #db2777;
+}
+
+/* ======================
+   Mobile
+====================== */
+
+@media (max-width: 480px) {
+  .result-card {
+    padding: 24px 18px 20px;
+    border-radius: 26px;
+  }
+
+  .result-text {
+    font-size: 1.04rem;
+  }
+
+  .plan-item {
+    padding: 12px 8px 10px;
+  }
+
+  .plan-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .plan-choice {
+    font-size: 1rem;
+  }
+}
+
+/* ======================
+   Reduced Motion
+====================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .result-screen:not(.hidden) .result-card:not(.hidden),
+  .plan-item {
+    animation: none;
+  }
+}

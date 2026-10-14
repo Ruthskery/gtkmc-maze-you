@@ -1,7 +1,7 @@
 const API_BASE =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
-    ? "http://localhost:3000"
+    ? "http://localhost:4000" // 3000/3001 are used by the portfolio dev server
     : "https://gtkmc-maze-server.onrender.com";
 
 export async function sendMazeResult(data) {

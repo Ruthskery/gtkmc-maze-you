@@ -23,6 +23,9 @@
   <!-- Conversation Box -->
   <link rel="stylesheet" href="css/conversationBox.css">
 
+  <!-- Result Screen -->
+  <link rel="stylesheet" href="css/resultScreen.css">
+
 </head>
 
 <body class="h-full flex items-center justify-center
@@ -134,62 +137,49 @@
 
   <!-- Result Screen -->
   <div id="resultScreen"
-      class="fixed inset-0 bg-pink-100/90 backdrop-blur
-              hidden z-50 flex items-center justify-center p-4">
+      class="result-screen fixed inset-0 hidden z-50 flex items-center justify-center p-4">
 
     <!-- Result Card -->
     <div id="resultCard"
-        class="premium-card bg-white/70 rounded-2xl sm:rounded-3xl p-4 sm:p-6
-                w-full max-w-md shadow-[0_30px_80px_rgba(236,72,153,0.4)]
-                space-y-3 sm:space-y-4 text-center max-h-[90vh] overflow-y-auto
+        class="result-card premium-card w-full max-w-md max-h-[92vh] overflow-y-auto
                 transition-opacity duration-500">
 
-      <h2 class="font-display text-2xl sm:text-3xl font-semibold">
+      <h2 class="font-display result-title">
         So… here’s your result&nbsp;💕
       </h2>
 
-      <p class="text-pink-500 text-xs italic">
-        Made with care, just for you ✨
+      <p class="result-sub">
+        Made with care, just for <span id="resultName">you</span> ✨
       </p>
 
-      <p id="resultText"
-        class="font-display text-pink-800 text-base sm:text-lg leading-relaxed px-1"></p>
+      <p id="resultText" class="font-display result-text"></p>
 
-      <ul id="resultList"
-          class="space-y-2 text-xs sm:text-sm text-pink-800"></ul>
+      <ul id="resultList" class="result-plan" aria-label="Your picks"></ul>
 
-      <button id="restartBtn"
-              class="w-full mt-4 py-3 sm:py-2 rounded-xl
-                    bg-pink-400 hover:bg-pink-500
-                    text-white font-semibold active:scale-95
-                    touch-manipulation min-h-[44px]">
+      <button id="restartBtn" class="result-button" type="button">
         One Last Thing 🌸
       </button>
     </div>
 
     <!-- End Credits -->
     <div id="endCredits"
-        class="hidden opacity-0 transition-opacity duration-700
-                text-center space-y-3 max-w-md">
+        class="result-card credits-card premium-card hidden opacity-0
+                transition-opacity duration-700 w-full max-w-md">
 
-      <p class="text-pink-500 text-sm italic">
+      <p class="font-display credits-thanks">
         Thank you for playing.
       </p>
 
-      <p class="text-pink-600 text-sm leading-relaxed">
+      <p class="credits-text">
         This little game was made with care,<br>
         and with someone specific in mind.
       </p>
 
-      <p class="text-pink-400 text-xs italic">
+      <p class="font-display credits-sign">
         I enjoyed making this for you 💕
       </p>
 
-      <button id="playAgainBtn"
-              class="w-full mt-4 py-3 sm:py-2 rounded-xl
-                    bg-pink-400 hover:bg-pink-500
-                    text-white font-semibold active:scale-95
-                    touch-manipulation min-h-[44px]">
+      <button id="playAgainBtn" class="result-button result-button-quiet" type="button">
         Play Again 🔁
       </button>
     </div>
